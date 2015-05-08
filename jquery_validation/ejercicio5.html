@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+	* {font-family: Verdana; font-size: 96%;}
+	fieldset{width: 800px; margin: 0 auto; border: none;}
+	label.titulo{width: 11em; float: left;}
+	/*label.error{padding:0 0 0 18.5em; color:red; font-size: xx-small;}*/
+	label.error {float:right; color: red;}
+	p {clear: both; padding-left: 10px}
+	.submit {margin-left: 13.5em;}
+	em.requerido {font-weight: bold; color: red; padding-right: 1em; vertical-align: top;}
+	em.norequerido{visibility: hidden; font-weight: bold; padding-right: 1em; vertical-align: top;}
+</style>
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="jquery.validate.js"></script>
+<script type="text/javascript" src="additional-methods.js"></script>
+<script type="text/javascript" src="localization/messages_es.js"> </script>
+<script>
+	$(document).ready(function() {
+		$("#formulario").validate({
+			rules : {
+				nombre : {
+					required : true,
+					minlength : 5
+				},
+				apellido : {
+					required : true,
+					minlength : 5
+				},
+				nick : {
+					required : true,
+					minlength : 5,
+					maxlength : 60,
+					remote: "validar_nick_db.php"
+				},
+				fnacimiento : {
+					date: true
+				},
+				estado : {
+					required : true
+				},
+				nif : {
+					required : true,
+					remote: "validar_nif_db.php",
+					nif : true
+					
+				},
+				telefono : {
+					required : true,
+					digits : true,
+					minlength : 9,
+					maxlength : 9
+				},
+				email : {
+					required : true,
+					email : true,
+					remote: "validar_email_db.php"
+				},
+				cpostal : {
+					required : true,
+					digits : true,
+					minlength : 5,
+					maxlength : 5
+				},
+				localidad : {
+					required : true
+				},
+				provincia : {
+					required : true
+				},
+				terminosuso : {
+					required : true
+				},/*
+				enviopublicidad : {
+					
+				},*/
+				cuentabancaria : {
+					cuentabanco : true
+				},
+				tarjetacredito : {
+					creditcardtypes : function() {
+						return $("#cardType").val();
+					}
+				},
+				aficion : {
+					required : true
+				}
+		
+			},
+			messages : {
+				nick : {
+					remote: "Este nick ya esta en uso.",
+				},
+				estado : {
+					required : "Selecciona un estado.",
+				},
+				nif : {
+					remote: "Este DNI ya esta en uso.",
+				},
+				email : {
+					remote: "Este email ya esta en uso.",
+				},
+				tarjetacredito : "Introduce un número de tarjeta válido.",
+				aficion : {
+					required : "Selecciona una o más aficiones.",
+				}
+			},
+			submitHandler : function() {
+                alert("¡Envíado!");
+            }
+		
+		});	
+	});
+</script>
+
+</head>
+<body>
+	<form id="formulario" method="post" action="">
+		<fieldset>
+			<legend>Formulario de validación</legend>
+			<p>
+				<label class="titulo" for="nombre">Nombre</label> <em class="requerido">*</em>
+				<input id="nombre" name="nombre" size="38" />
+			</p>
+			<p>
+				<label class="titulo" for="apellido">Apellido</label> <em class="requerido">*</em>
+				<input id="apellido" name="apellido" size="38" />
+			</p>
+			<p>
+				<label class="titulo" for="nick">Nick</label> <em class="requerido">*</em>
+				<input id="nick" name="nick" size="38" value="" />
+			</p>
+			<p>
+				<label class="titulo" for="fnacimiento">Fecha Nacimiento</label> <em class="requerido">*</em>
+				<input type="date" id="fnacimiento" name="fnacimiento" size="38" value="" />
+			</p>
+			<p>
+				<label class="titulo" for="estado">Estado civil</label> <em class="requerido">*</em>
+				<label class="subtitulo"><input type="radio" id="estadosoltero" name="estado" value="1"  />
+				Soltero</label>
+				<label class="subtitulo"><input type="radio" id="estadocasado" name="estado" value="2"  />
+				Casado</label>
+				<label class="subtitulo"><input type="radio" id="estadodivorciado" name="estado" value="3"  />
+				Divorciado</label>
+				<label class="subtitulo"><input type="radio" id="estadoviudo" name="estado" value="4"  />
+				Viudo</label>
+			</p>
+			<p>
+				<label class="titulo" for="nif">NIF</label> <em class="requerido">*</em>
+				<input id="nif" name="nif" size="38"  />
+			</p>
+			<p>
+				<label class="titulo" for="telefono">Teléfono</label> <em class="requerido">*</em>
+				<input id="telefono" name="telefono" size="38"  />
+			</p>
+			<p>
+				<label class="titulo" for="email">E-Mail</label> <em class="requerido">*</em>
+				<input id="email" name="email" size="38" />
+			</p>
+			<p>
+				<label class="titulo" for="cpostal">Código postal</label> <em class="requerido">*</em>
+				<input id="cpostal" name="cpostal" size="38" />
+			</p>
+			<p>
+				<label class="titulo" for="localidad">Localidad</label> <em class="requerido">*</em>
+				<input id="localidad" name="localidad" size="38" />
+			</p>
+			<p>
+				<label class="titulo" for="provincia">Provincia</label> <em class="requerido">*</em>
+				<input id="provincia" name="provincia" size="38" />
+			</p>
+			<p>
+				<label class="titulo" for="terminosuso">Términos de uso</label> <em class="requerido">*</em>
+				<label class="subtitulo"><input type="checkbox" id="terminosuso" name="terminosuso" value="si"  />
+				Acepto</label>
+			</p>
+			<p>
+				<label class="titulo" for="enviopublicidad">Envío de publicidad</label> <em class="norequerido">*</em>
+				<label class="subtitulo"><input type="checkbox" id="enviopublicidad" name="enviopublicidad" value="si"  />
+				Acepto</label>
+			</p>
+			<p>
+				<label class="titulo" for="cuentabancaria">Cuenta bancaria</label> <em class="requerido">*</em>
+				<input id="cuentabancaria" name="cuentabancaria" size="38" />
+			</p>
+			<p>
+				<label class="titulo" for="cardType">Tarjeta de crédito</label> <em class="requerido">*</em>
+				<select id="cardType">
+					<option value="AmEx">AmEx</option>
+					<option value="CarteBlanche">CarteBlanche</option>
+					<option value="DinersClub">DinersClub</option>
+					<option value="Discover">Discover</option>
+					<option value="enRoute">enRoute</option>
+					<option value="JCB">JCB</option>
+					<option value="LaserCard">LaserCard</option>
+					<option value="Maestro">Maestro</option>
+					<option value="MasterCard">MasterCard</option>
+					<option value="Solo">Solo</option>
+					<option value="Switch">Switch</option>
+					<option value="Visa">Visa</option>
+					<option value="VisaElectron">VisaElectron</option>
+				</select>
+				<label class="titulo" for="tarjetacredito"></label>
+				<input id="tarjetacredito" name="tarjetacredito" size="24" />
+			</p>
+			<p>
+				<label class="titulo" for="aficion">Aficiones</label> <em class="requerido">*</em>
+				<label class="subtitulo"><input type="checkbox" id="aficionmotociclismo" name="aficion" value="1"  />
+				Soltero</label>
+				<label class="subtitulo"><input type="checkbox" id="aficionfutbol" name="aficion" value="2"  />
+				Casado</label>
+				<label class="subtitulo"><input type="checkbox" id="aficiontenis" name="aficion" value="3"  />
+				Divorciado</label>
+				<label class="subtitulo"><input type="checkbox" id="aficionlectura" name="aficion" value="4"  />
+				Viudo</label>
+			</p>
+			<p>
+				<input class="submit" type="submit" value="Submit" />
+			</p>
+		</fieldset>
+	</form>
+</body>
+</html>

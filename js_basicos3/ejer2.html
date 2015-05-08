@@ -1,0 +1,37 @@
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Javascript - Básicos 3 - Ejercicio 2</title>
+		<script type="text/javascript">
+	 		n1 = prompt("Introducir el primer numero")
+	 		n2 = prompt("Introducir el segundo numero")
+	 		var str = "";
+	 		if (n1 > n2){
+	 			str = "El primer número es mayor" + "<br />";
+	 		} else if (n1 < n2) {
+	 			str = "El segundo número es mayor" + "<br />";
+	 		} else {
+	 			str = "El primer número es igual que el segundo número" + "<br />";
+	 		}
+	 		if (n2 >= 0) {
+	 			str += "El segundo número es positivo" + "<br />";
+	 		} else {
+	 			str += "El segundo número es negativo" + "<br />";
+	 		}
+	 		if (n1 == 0){
+	 			str += "El primer número es igual a 0" + "<br />";
+	 		} else {
+	 			str += "El primer número es negativo o distinto de 0" + "<br />";
+	 		}
+	 		if (n1 + 1 >= n2){
+	 			str += "El primer numero al sumarle 1 es mayor o igual que el segundo número" + "<br />";
+	 		} else {
+	 			str += "El primer número al sumarle 1 sigue siendo menor que el segundo número" + "<br />";
+	 		}
+	 		document.write(str);
+		</script>
+	</head>
+	 <body>
+	</body>
+</html>

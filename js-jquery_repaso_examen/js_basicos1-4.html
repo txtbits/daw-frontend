@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js_basicos1-4</title>
+		<script type="text/javascript">
+			function evaluar(){
+				
+				var nombre = prompt("Introduce el nombre:");
+				var nota = parseInt(prompt("Introduce la nota"));
+				
+				if (nota > 4) {
+					document.write(nombre + " aprobado con un: " + nota);				 
+				} else {
+					document.write(nombre + " suspendido con un: " + nota);
+				}
+			   
+			}
+		
+		</script>
+	</head>
+	<body onload="evaluar()">
+
+	</body>
+</html>

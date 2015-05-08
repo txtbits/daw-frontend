@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Practica Laboratorio - Doctores / Clínicas</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/DT_bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery.gritter.css">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" language="javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/DT_bootstrap.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.gritter.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/bootstrap-modal.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.validate.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/jquery.validate.additional-methods.min.js"></script>
+        <script type="text/javascript" language="javascript" src="js/messages_es.js"></script>
+        <script>
+            $(document).ready(function() {
+
+                oTable = $('#example').dataTable({
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "oLanguage": {
+                        "sUrl": "src/dataTables.spanish.txt"
+                    },
+                    "sAjaxSource": "php/listar.php",
+                    "aoColumns": [
+                        {
+                            "mData": "id_doctor",
+                            "bSearchable": false,
+                            "bVisible": false
+                        },
+                        {
+                            "mData": "doctor",
+                            "sWidth": "220px",
+                            "mRender": function ( data, type, full ) {     
+                                return '<a href="#modalEditar" class="editarbtn" data-toggle="modal">' + data + '</a>';
+                            },
+                            "bSearchable": true,
+                            "bSortable": true
+                        },
+                        {
+                            "mData": "numcolegiado",
+                            "sWidth": "150px",
+                            "bSearchable": true,
+                            "bSortable": false    
+                        },
+                        {
+                            "mData": "clinica",
+                            "mRender": function(data, type, full) {
+                                var arrayClinicas = new Array();
+                                var datos = new Array();
+                                arrayClinicas = data.split(",");
+                                for (var i = 0; i < arrayClinicas.length; i++) {
+                                    datos[i] = "<li>" + arrayClinicas[i] + "</li>";
+                                }
+                                // Si tiene varias clinicas
+                                if (datos.length > 1) {
+                                    datos = datos.join(" ");
+                                }
+                                return '<ul>' + datos + '</ul>';
+                            },
+                            "bSearchable": true,
+                            "bSortable": true
+                        },
+                        {
+                            "mData": "id_clinica",
+                            "bVisible":    false
+                        },
+                        {
+                            "mData": "id_doctor",
+                            "mRender": function(data, type, full) {
+                                return '<a href="#modalEditar" class="btn btn-info editarbtn" data-toggle="modal">Editar</a>';
+                            },
+                            "bSortable": false,
+                            "bSearchable": false,
+                            "sWidth": "60px"
+                        },
+                        {
+                            "mData": "id_doctor",
+                            "mRender": function(data, type, full) {
+                                return '<a href="#modalBorrar" class="btn btn-warning borrarbtn" data-toggle="modal">Borrar</a>';
+                            },
+                            "bSortable": false,
+                            "bSearchable": false,
+                            "sWidth": "60px"
+                        }
+                    ]
+                });
+
+                /* Validación del formulario de Añadir / Editar Doctores en #ModalEditar */
+                var validator = $("#form").validate({
+                    rules: {
+                        doctor: {
+                            required: true,
+                            lettersonly: true   // La expresión regular del método ha sido modificada para que acepte espacios, ñ y carácteres con tilde.
+                        },
+                        numcolegiado: {
+                            digits: true
+                        },
+                        selectClinicas: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        doctor: {
+                            required: "Introduce el nombre del doctor."
+                        },
+                        selectClinicas: {
+                            required: "Selecciona al menos una clínica."
+                        }
+                    }
+                });
+
+                /* Ajax que se ejecuta al principio para agregar los select option del  listado de clinicas en el modalEditar*/
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "php/listadoclinicas.php",
+                    async: false,
+                    error: function(xhr, status, error) {
+                    },
+                    success: function(data) {
+                        $("#selectClinicas").empty();
+                        $.each(data, function() {
+                            $("#selectClinicas").append(
+                            $('<option></option>').val(this.id_clinica).html(this.nombre));
+                        });
+                    }
+                });
+                
+                // Reiniciar el formulario y la validación, al darle a la 'x' de cerrar o al botón 'Cancelar' en #modalEditar
+                $("#modalEditar").on('click', ".formReset", function(e) {
+                    e.preventDefault();
+                    $("#id_doctor").val("");    // Reinicia el campo id_doctor que esta oculto (con .reset() no funciona)
+                    $("#form")[0].reset();
+                    validator.resetForm();
+                });
+
+                // Al hacer click en el botón con clase .editarbtn recogemos los datos del registro y rellenamos el formulario de #modalEditar
+                $("#example").on("click", ".editarbtn", function(event) {
+                    event.preventDefault();
+                    var nRow = $(this).parents('tr')[0];
+                    aData = oTable.fnGetData(nRow);
+                    $("#id_doctor").val(aData.id_doctor);
+                    $("#doctor").val(aData.doctor);
+                    $("#numcolegiado").val(aData.numcolegiado);
+                    var seleccionados = aData.id_clinica.split(",");
+                    $("#selectClinicas").val(seleccionados);
+                });
+
+                // Dentro del #modalEditar al darle al botón de #confirmarDoctor ...
+                $("#modalEditar").on('click', "#confirmarDoctor", function(e) {
+                    e.preventDefault();
+
+                    // Guardamos los valores del formulario de #modalEditar
+                    var id_doctor = $("#id_doctor").val();
+                    var doctor = $("#doctor").val();
+                    var numcolegiado = $("#numcolegiado").val();
+                    var selectClinicas = $("#selectClinicas").val();
+                    
+                    // Comprobamos si la la validación de #modalEditar es correcta
+                    if ($("#form").validate().form()){
+                        // Si al comprobar el id_doctor esta vacío, estamos insertando un nuevo doctor.
+                        if (id_doctor == "") {
+                            $.ajax({
+                                type: 'POST',
+                                url: "php/insertar.php",
+                                async: false,
+                                data: {
+                                    doctor: doctor,
+                                    numcolegiado: numcolegiado,
+                                    clinicas: selectClinicas
+                                },
+                                error: function(xhr, status, error) {
+                                    $("#modalEditar").modal("hide");
+                                    $.gritter.add({
+                                        title: 'Notificación - Laboratorio',
+                                        text: 'Error al insertar el doctor.<br />Error: <b>' + error + '</b><br />Estado: <b>' + status + '</b><br />Código: <b>' + xhr + '</b>',
+                                        image: 'images/error.png',
+                                        sticky: false,
+                                        time: '3000'
+                                    });
+                                    $("#form")[0].reset();
+                                },
+                                success: function(data) {
+                                    $("#modalEditar").modal("hide");
+                                    $.gritter.add({
+                                        title: 'Notificación - Laboratorio',
+                                        text: 'El doctor <b>' + data + '</b> ha sido insertado correctamente.',
+                                        image: 'images/ok.png',
+                                        sticky: false,
+                                        time: '3000'
+                                    });
+                                    $("#form")[0].reset();
+                                    oTable.fnDraw();
+                                }
+                            });
+                        } else {
+                            $.ajax({
+                                type: 'POST',
+                                url: "php/actualizar.php",
+                                async: false,
+                                data: {
+                                    id_doctor: id_doctor,
+                                    doctor: doctor,
+                                    numcolegiado: numcolegiado,
+                                    clinicas: selectClinicas
+                                },
+                                error: function(xhr, status, error) {
+                                    $("#modalEditar").modal("hide");
+                                    $.gritter.add({
+                                        title: 'Notificación - Laboratorio',
+                                        text: 'Error al actualizar el doctor.<br />Error: <b>' + error + '</b><br />Estado: <b>' + status + '</b><br />Código: <b>' + xhr + '</b>',
+                                        image: 'images/error.png',
+                                        sticky: false,
+                                        time: '3000'
+                                    });
+                                    $("#id_doctor").val("");
+                                    $("#form")[0].reset();
+                                },
+                                success: function(data) {
+                                    $("#modalEditar").modal("hide");
+                                    $.gritter.add({
+                                        title: 'Notificación - Laboratorio',
+                                        text: 'El doctor <b>' + data + '</b> ha sido modificado correctamente.',
+                                        image: 'images/refresh.png',
+                                        sticky: false,
+                                        time: '3000'
+                                    });
+                                    $("#id_doctor").val("");
+                                    $("#form")[0].reset();
+                                    oTable.fnDraw();
+                                }
+                            });
+                        }
+                    } else {
+                        return false;
+                    }
+                });
+
+                /* Recoge los datos del registro concreto al darle al botón borrarbtn */
+                $("#example").on("click", ".borrarbtn", function(event) {
+                    event.preventDefault();
+                    var nRow = $(this).parents('tr')[0];
+                    aData = oTable.fnGetData(nRow);
+                    $("#muestraDoctor").val(aData.doctor);
+                    $("#muestraNumColegiado").val(aData.numcolegiado);
+                });
+
+                /* Función botón confirmar borrado en #modalBorrar */
+                $("#borrarConfirmar").click(function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: "./php/borrar.php",
+                        async: false,
+                        data: {
+                            id_doctor: aData.id_doctor,
+                            doctor: aData.doctor
+                        },
+                        error: function(xhr, status, error) {
+                            $("#modalBorrar").modal("hide");
+                            $.gritter.add({
+                                title: 'Notificación - Laboratorio',
+                                text: 'Error en el borrado del doctor.<br />Error: <b>' + error + '</b><br />Estado: <b>' + status + '</b><br />Codigo: <b>' + xhr + '</b>',
+                                image: 'images/error.png',
+                                sticky: false,
+                                time: '3000'
+                            });
+                            $("#form")[0].reset();
+                        },
+                        success: function(data) {
+                            $("#modalBorrar").modal("hide");
+                            $.gritter.add({
+                                title: 'Notificación - Laboratorio',
+                                text: 'El doctor <b>' + data + '</b> ha sido borrado correctamente.',
+                                image: 'images/trash.png',
+                                sticky: false,
+                                time: '3000'
+                            });
+                            oTable.fnDraw();
+                        }
+                    });
+                });
+
+            });
+        </script>
+    </head>
+    <body>
+        <div id="container" class="container">
+            <p><a data-toggle="modal" data-target="#modalEditar" class="btn btn-primary">Añadir doctor</a></p>
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
+                <thead>
+                    <tr>
+                        <th>ID Doctor</th>
+                        <th>Doctor</th>
+                        <th>Nº Colegiado</th>
+                        <th>Clínica</th>
+                        <th>ID Clínica</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+            <!-- Ventana Modal de Añadir/Editar "#modalEditar" -->
+            <div id="modalEditar" class="modal hide fade in" style="display: none; ">
+                <div class="modal-header">
+                    <button type="button" class="close formReset" data-dismiss="modal">×</button>
+                    <h3>Datos del Doctor</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="form" name="form" action="" method="post">
+                        <fieldset id="fieldset-formdoctor" class="form-horizontal">
+                            <input type="hidden" name="id_doctor" value="" id="id_doctor">
+                            <div class="control-group">
+                                <label for="doctor" class="control-label required">Nombre:</label>
+                                <div class="controls">
+                                    <input type="text" name="doctor" id="doctor" value="" class="required" maxlength="100">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="numcolegiado" class="control-label optional">Nº de Colegiado:</label>
+                                <div class="controls">
+                                    <input type="text" name="numcolegiado" id="numcolegiado" value="" maxlength="50">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label for="selectClinicas" class="control-label required">Clínicas:</label>
+                                <div class="controls">
+                                    <select name="selectClinicas" id="selectClinicas" size="5" style="width:300px;" multiple="multiple">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger formReset" data-dismiss="modal">Cancelar</a>
+                    <a href="#" id="confirmarDoctor" class="btn btn-success">Confirmar</a>                 
+                </div>
+            </div>
+
+            <!-- Ventana Modal de Borrar "#modalBorrar" -->
+            <div id="modalBorrar" class="modal hide fade in" style="display: none; ">  
+                <div class="modal-header">  
+                    <a class="close" data-dismiss="modal">×</a>  
+                    <h3>Borrar Doctor</h3>  
+                </div>  
+                <div class="modal-body">
+                    <fieldset class="form-horizontal">
+                        <div class="control-group">
+                            <label for="muestraDoctor" class="control-label required">Nombre:</label>
+                            <div class="controls">
+                                <input type="text" name="muestraDoctor" id="muestraDoctor" value="" maxlength="100" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="muestraNumColegiado" class="control-label optional">Nº de Colegiado:</label>
+                            <div class="controls">
+                                <input type="text" name="muestraNumColegiado" id="muestraNumColegiado" value="" maxlength="50" disabled="disabled">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <h4>Esta a punto de borrar el doctor seleccionado.</h4>
+                    <p>¿Desea continuar?</p>
+                </div>  
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Cancelar</a> 
+                    <a href="#" id="borrarConfirmar" class="btn btn-success">Confirmar</a>   
+                </div>  
+            </div>  
+        </div>
+    </body>
+</html>

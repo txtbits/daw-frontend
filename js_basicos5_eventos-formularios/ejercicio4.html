@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Ejercicio 2 - Eventos y formularios I</title>
+		<style>
+			#contenedor{
+				height: 1200px;
+			}
+			form{
+				/*position: fixed;*/
+			}
+		</style>
+		<script type="text/javascript">
+		function muestraInformacion(elEvento) {
+			var evento = elEvento || window.event;
+			
+			var clientx = evento.clientX;
+			document.f1.clientX.value = clientx;
+			var clienty = evento.clientY;
+			document.f1.clientY.value = clienty;
+			
+			var screenx = evento.screenX;
+			document.f1.screenX.value = screenx;
+			var screeny = evento.screenY;
+			document.f1.screenY.value = screeny;
+			
+			var pagex = evento.pageX;
+			document.f1.pageX.value = pagex;
+			var pagey = evento.pageY;
+			document.f1.pageY.value = pagey;
+		}
+		
+		/* Así si que funciona:
+		window.onload=function(){
+				document.body.onmousemove=muestraInformacion;
+		}
+		*/
+		</script>
+	</head>
+	<!-- Así no funcionaba en firefox, sin embargo si se pone como está arriba sí:
+			<body onmousemove="muestraInformacion()"> -->
+	<body onmousemove="muestraInformacion(event)">
+		<div id="contenedor">
+			<form name="f1">
+				Propiedad clientX<input type="text" name="clientX">
+				Propiedad clientX<input type="text" name="clientY">
+				<br />
+				Propiedad screenX<input type="text" name="screenX">
+				Propiedad screenX<input type="text" name="screenY">
+				<br />
+				Propiedad pageX<input type="text" name="pageX">
+				Propiedad pageX<input type="text" name="pageY">
+			</form>
+		</div>
+	</body>
+</html>

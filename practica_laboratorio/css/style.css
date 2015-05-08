@@ -1,0 +1,11 @@
+body{
+    margin-top:20px;
+}
+
+label.error{
+    color:#F00;
+}
+
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color: #88CCFF;
+}

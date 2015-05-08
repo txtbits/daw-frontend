@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Ejercicio 8</title>
+        <style type="text/css" title="currentStyle">
+            @import "datatables/media/css/demo_table.css";
+            @import "datatables/media/css/demo_page.css";
+            @import "datatables/media/css/jquery.gritter.css";
+        </style>
+        <style>
+            label{
+                display:block;
+            }
+            input[type="text"]{
+                width:300px;
+            }
+        </style>
+        <script type="text/javascript" language="javascript" src="datatables/media/js/jquery.js"></script>
+        <script type="text/javascript" language="javascript" src="datatables/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" language="javascript" src="datatables/media/js/jquery.gritter.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                
+                oTable = $('#example').dataTable( {
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": "php/vclinicas_juanda.php",
+                    "aoColumns": [
+                        { "mData" : "id_clinica",
+                            "bVisible": false},
+                        { "mData": "nombre" },
+                        { "mData": "numclinica",
+                            "bVisible":false},
+                        { "mData": "razonsocial",
+                            "bVisible":false},
+                        { "mData": "cif" },
+                        { "mData": "localidad" },
+                        { "mData": "provincia" },
+                        { "mData": "direccion",
+                            "bVisible":false},
+                        { "mData": "cp",
+                            "bVisible":false},
+                        { "mData": "id_tarifa",
+                            "bVisible":false},
+                        { "mData": "nombretarifa"},
+                        {
+                            "mData": "id_clinica",
+                            "mRender": function ( data, type, full ) {     
+                                return '<a href="#?id_clinica=' + data + '"><button class="editarbtn">Editar</button></a>';
+                            },
+                            "bSortable": false, 
+                            "bSearchable": false,
+                            "sWidth": "60px"
+                        },
+                        {
+                            "mData": "id_clinica",
+                            "mRender": function ( data, type, full ) {  
+                                return '<a href="borrar?id_clinica=' + data + '"><button class="borrarbtn">Borrar</button></a>';
+                            },
+                            "bSortable": false, 
+                            "bSearchable": false,
+                            "sWidth": "60px"
+                        }
+                    ]  
+                });
+            
+                /*Asociamos el botón de editar a abrir un formulario con los datos*/
+                $("#example").on("click", ".editarbtn", function(event){
+                    event.preventDefault();
+                    $("#contenedorPrincipal").fadeOut(100);
+                    $("#contenedorSecundario").fadeIn(100);
+                    var nRow = $(this).parents('tr')[0];
+                    aData = oTable.fnGetData(nRow);
+                    $("#id_clinica").val(aData.id_clinica);                
+                    $("#nombre").val(aData.nombre); 
+                    $("#numclinica").val(aData.numclinica); 
+                    $("#razonsocial").val(aData.razonsocial); 
+                    $("#cif").val(aData.cif);
+                    $("#localidad").val(aData.localidad); 
+                    var provinciaA = aData.provincia;
+                    provinciaA = provinciaA.toLowerCase();
+                    provinciaA = provinciaA.substr(0,1).toUpperCase()+provinciaA.substr(1);
+                    $("#provincia").val(provinciaA);
+                    $("#direccion").val(aData.provincia);
+                    $("#cp").val(aData.cp);
+                    $("#id_tarifa").val(aData.id_tarifa);
+                });
+            
+                $("#enviar").click(function(mievento){
+                    mievento.preventDefault();
+                    $.ajax({
+                        type: 'POST',
+                        url: "./php/modificar_juanda.php",
+                        async: false,
+                        data: {
+                            id_clinica : aData.id_clinica,                
+                            nombre : $("#nombre").val(),
+                            numclinica : $("#numclinica").val(),
+                            razonsocial : $("#razonsocial").val(),
+                            cif : $("#cif").val(),
+                            localidad : $("#localidad").val(),
+                            provincia : $("#provincia").val(),
+                            direccion : $("#direccion").val(),
+                            cp : $("#cp").val(),
+                            id_tarifa : $("#id_tarifa").val()
+                        },
+                        error: function(xhr, status, error) {
+                            //mostraríamos alguna ventana de alerta con el error
+                        },
+                        success: function(data) {
+                            $.gritter.add({
+                                   // (string | mandatory) the heading of the notification
+                                   title: 'Notificación - Clinica Dental',
+                                   // (string | mandatory) the text inside the notification
+                                   text: 'El registro con <b>ID_Clinica '+data+'</b> ha sido modificado correctamente.',
+                                   // (bool | optional) if you want it to fade out on its own or just sit there
+                                   image: 'datatables/media/images/ok.gif',
+                                   sticky: false,
+                                   // (int | optional) the time you want it to be alive for before fading out
+                                   time: '3000'
+                           })
+                            oTable.fnDraw();
+                        }
+                    }),
+                    $("#contenedorSecundario").fadeOut(100);
+                    $("#contenedorPrincipal").fadeIn(100);
+                });
+                
+                $("#example").on("click", ".borrarbtn", function(event){
+                    event.preventDefault();
+                    var nRow = $(this).parents('tr')[0];
+                    aData = oTable.fnGetData(nRow);
+                    $.ajax({
+                        type: 'POST',
+                        url: "./php/borrar.php",
+                        async: false,
+                        data: {
+                            id_clinica : aData.id_clinica
+                        },
+                        error: function(xhr, status, error) {
+                            //mostraríamos alguna ventana de alerta con el error
+                        },
+                        success: function(data) {
+                            $.gritter.add({
+                                   // (string | mandatory) the heading of the notification
+                                   title: 'Notificación - Laboratorio',
+                                   // (string | mandatory) the text inside the notification
+                                   text: 'El registro con <b>ID_Clinica '+data+'</b> ha sido borrado correctamente.',
+                                   // (bool | optional) if you want it to fade out on its own or just sit there
+                                   image: 'datatables/media/images/ok.gif',
+                                   sticky: false,
+                                   // (int | optional) the time you want it to be alive for before fading out
+                                   time: '3000'
+                           })
+                            oTable.fnDraw();
+                        }
+                    })
+                });
+                
+                /*Cargamos los datos para las tarifas:*/
+                function cargar_tarifas()
+                {
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        url: "./php/listar_tarifas.php",
+                        async: false,
+                        //estos son los datos que queremos actualizar, en json:
+                        // {parametro1: valor1, parametro2, valor2, ….}
+                        //data: { id_clinica: id_clinica, nombre: nombre, ….,  id_tarifa: id_tarifa },
+                        error: function(xhr, status, error) {
+                            //mostraríamos alguna ventana de alerta con el error
+                        },
+                        success: function(data) {
+                            //obtenemos el mensaje del servidor, es un array!!!
+                            //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
+                            //actualizamos datatables:
+                            //mitabla.fnStandingRedraw(); 
+                            $("#id_tarifa").empty();
+                            $.each(data, function() {
+                                $("#id_tarifa").append(
+                                    $('<option></option>').val(this.id_tarifa).html(this.nombre));
+                            }); 
+                        },
+                        complete:{
+                            //si queremos hacer algo al terminar la petición ajax
+                        }
+                    });
+                }
+                cargar_tarifas();
+            });
+        </script>
+    </head>
+    <body id="dt_example">
+        <div id="container">
+            <div id="contenedorPrincipal">
+                <table id="example" class="display">
+                    <thead>
+                        <tr>
+                            <th>id_clinica</th>
+                            <th>Nombre</th>
+                            <th>NumClinica</th>
+                            <th>RazonSocial</th>
+                            <th>Cif</th>
+                            <th>Localidad</th>
+                            <th>Provincia</th>
+                            <th>Direccion</th>
+                            <th>CP</th>
+                            <th>id_tarifa</th>
+                            <th>nombretarifa</th>
+                            <th>Editar</th>
+                            <th>Borrar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="contenedorSecundario" style="display:none;">
+                <form id="miformulario">
+                    <input type="hidden" id="id_clinica">
+                    <label for="nombre">nombre</label> <input type="text" id="nombre">
+                    <label for="numclinica">numclinica</label> <input type="text" id="numclinica">
+                    <label for="razonsocial">razonsocial</label> <input type="text" id="razonsocial">
+                    <label for="cif">cif</label> <input type="text" id="cif">
+                    <label for="localidad">localidad</label> <input type="text" id="localidad">
+                    <label for="provincia">provincia</label>
+                    <select id="provincia">
+                        <option value="Álava" label="Álava">Álava</option>
+                        <option value="Albacete" label="Albacete">Albacete</option>
+                        <option value="Alicante" label="Alicante">Alicante</option>
+                        <option value="Almería" label="Almería">Almería</option>
+                        <option value="Asturias" label="Asturias">Asturias</option>
+                        <option value="Ávila" label="Ávila">Ávila</option>
+                        <option value="Badajoz" label="Badajoz">Badajoz</option>
+                        <option value="Baleares" label="Baleares">Baleares</option>
+                        <option value="Barcelona" label="Barcelona">Barcelona</option>
+                        <option value="Burgos" label="Burgos">Burgos</option>
+                        <option value="Cáceres" label="Cáceres">Cáceres</option>
+                        <option value="Cádiz" label="Cádiz">Cádiz</option>
+                        <option value="Cantabria" label="Cantabria">Cantabria</option>
+                        <option value="Castellón" label="Castellón">Castellón</option>
+                        <option value="Ceuta" label="Ceuta">Ceuta</option>
+                        <option value="Ciudad Real" label="Ciudad Real">Ciudad Real</option>
+                        <option value="Córdoba" label="Córdoba">Córdoba</option>
+                        <option value="Coruña" label="Coruña">Coruña</option>
+                        <option value="Cuenca" label="Cuenca">Cuenca</option>
+                        <option value="Gerona" label="Gerona">Gerona</option>
+                        <option value="Granada" label="Granada">Granada</option>
+                        <option value="Guadalajara" label="Guadalajara">Guadalajara</option>
+                        <option value="Guipúzcoa" label="Guipúzcoa">Guipúzcoa</option>
+                        <option value="Huelva" label="Huelva">Huelva</option>
+                        <option value="Huesca" label="Huesca">Huesca</option>
+                        <option value="Jaén" label="Jaén">Jaén</option>
+                        <option value="León" label="León">León</option>
+                        <option value="Lérida" label="Lérida">Lérida</option>
+                        <option value="La Rioja" label="La Rioja">La Rioja</option>
+                        <option value="Lugo" label="Lugo">Lugo</option>
+                        <option value="Madrid" label="Madrid">Madrid</option>
+                        <option value="Málaga" label="Málaga">Málaga</option>
+                        <option value="Melilla" label="Melilla">Melilla</option>
+                        <option value="Murcia" label="Murcia">Murcia</option>
+                        <option value="Navarra" label="Navarra">Navarra</option>
+                        <option value="Orense" label="Orense">Orense</option>
+                        <option value="Palencia" label="Palencia">Palencia</option>
+                        <option value="Las Palmas" label="Las Palmas">Las Palmas</option>
+                        <option value="Pontevedra" label="Pontevedra">Pontevedra</option>
+                        <option value="Salamanca" label="Salamanca">Salamanca</option>
+                        <option value="Santa Cruz de Tenerife" label="Santa Cruz de Tenerife">Santa Cruz de Tenerife</option>
+                        <option value="Segovia" label="Segovia">Segovia</option>
+                        <option value="Sevilla" label="Sevilla">Sevilla</option>
+                        <option value="Soria" label="Soria">Soria</option>
+                        <option value="Tarragona" label="Tarragona">Tarragona</option>
+                        <option value="Teruel" label="Teruel">Teruel</option>
+                        <option value="Toledo" label="Toledo">Toledo</option>
+                        <option value="Valencia" label="Valencia">Valencia</option>
+                        <option value="Valladolid" label="Valladolid">Valladolid</option>
+                        <option value="Vizcaya" label="Vizcaya">Vizcaya</option>
+                        <option value="Zamora" label="Zamora">Zamora</option>
+                        <option value="Zaragoza" label="Zaragoza">Zaragoza</option>
+                    </select>
+                    <label for="direccion">direccion</label> <input type="text" id="direccion">
+                    <label for="cp">cp</label> <input type="text" id="cp">
+                    <label for="id_tarifa">tarifa</label>
+                    <select id="id_tarifa">
+                    </select>
+                    <br /><br />
+                    <input id="enviar" type="submit" value="Enviar">
+                </form>  
+            </div>
+        </div>
+    </body>
+</html>

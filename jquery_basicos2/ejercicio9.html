@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ejercicio 9 - jQuery básicos 2</title>
+<script src="jquery-1.8.2.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$("#opacidad").change(function(){
+		//var opacidad = $("#opacidad").attr("value");
+		var opacidad = $("#opacidad").prop("value");
+		//var opacidad = $("#opacidad").val();
+		//Utilizando el método css:
+		//$("h1").css("opacity", opacidad);
+		//¿No funciona?
+		//$("h1").attr("opacity", opacidad);
+		//Mediante efectos:
+		$("h1").fadeTo(200,opacidad);
+		});
+	});
+</script>
+</head>
+<body>
+	<h1>Cambia la opacidad del título mediante un formulario</h1>
+	<form name="f1">
+		<p>Cambia de opacidad </p> 
+		<select name="opacidad" id="opacidad">
+			<option value="0.2">20%</option>
+			<option value="0.5">50%</option>
+			<option value="0.8">80%</option>
+			<option value="1" selected="selected">100%</option>
+		</select>
+	</form>
+</body>
+</html>

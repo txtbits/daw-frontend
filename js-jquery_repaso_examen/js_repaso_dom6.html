@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js_repaso_dom6</title>
+	</head>
+	<body onload="crearH3=true;">
+		<script type="text/javascript">		
+			function mostrar(num) {
+				if (crearH3) {
+					var newH3=document.createElement("h3");
+					newH3.innerHTML="Enlace pulsado";
+					referencia=document.getElementById("id_link");
+					document.body.insertBefore(newH3, referencia);
+					crearH3=false;
+				}
+			}
+		</script>
+		<a href="#" id="id_link" title="Enlace de prueba" onclick="mostrar(2); return false;">Pulsa el enlace</a>
+	</body>
+</html>

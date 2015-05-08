@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js_basicos2-4</title>
+		<script type="text/javascript">
+			function ejecutar_pum(){
+				
+				for (var i = 1; i < 100; i++){
+					var uDig = i%10;
+	 				if (i % 7 == 0 || uDig == 7) {
+	 					document.write('PUM, ' + '<br />');
+	 				} else {
+	   			 		document.write(i + ' , ');
+	   			 	}
+				}
+			   
+			}
+		
+		</script>
+	</head>
+	<body onload="ejecutar_pum()">
+	</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery Eventos - Ejercicio 4</title>
+<style>
+
+</style>
+<script src="jquery-1.8.2.min.js"></script>
+<script>
+	$(document).ready(function() {
+		
+		$.each(["judias", "patatas", "lechuga"], function(index, value) { 
+				$("ul").append("<li>" +value + "</li>");
+		});
+		
+		function addLista(miEvento){
+			miEvento.preventDefault();
+			$("#lista").append("<li style='font-weight:700'>" + $("#valor").val() + "</li>");
+		}
+		$("#btnAgregar").click(addLista);
+		
+		$("ul").on("click", "li", function(){
+			$(this).css({"color":"#CCC"});
+		});
+		
+		$("#btnComprar").click(function(){
+			$("ul li").css({"color":"#000", "font-weight":"300"});
+		});
+		
+	});
+</script>
+</head>
+<body>
+	<label>Elemento para la lista de la compra:<input type="text" name="cesta" id="valor" /></label>
+	<input type="button" name="agregar" value="agregar" id="btnAgregar" />
+	<input type="button" name="reiniciar" value="comprar" id="btnComprar" />
+	
+	<ul id="lista">
+		<li>Objeto 1</li>
+		<li>Objeto 2</li>
+	
+	</ul>
+</body>
+</html>

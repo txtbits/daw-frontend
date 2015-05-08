@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Ejercicio 4 - </title>
+        <style type="text/css" title="currentStyle">
+            @import "datatables/media/css/demo_table.css";
+            @import "datatables/media/css/demo_page.css";
+        </style>
+        <script type="text/javascript" src="datatables/media/js/jquery.js"></script>
+        <script type="text/javascript" src="datatables/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#example').dataTable( {
+                    "aoColumnDefs":[
+                        {"bSearchable": true, "bVisible": false, "aTargets" : [0]}
+                    ],
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": "php/vclinicas_juanda.php",
+                    "aoColumns": [
+                        { "mData" : "id_clinica"},
+                        { "mData" : "nombre"},
+                        { "mData" : "cif"},
+                        { "mData" : "localidad"},
+                        { "mData" : "provincia"},
+                        { "mData" : "nombretarifa"}
+                    ]
+                } );
+            } );
+        </script>
+    </head>
+    <body id="dt_example">
+        <div id="container">
+            <div id="formularioprincipal">
+                <table class="display" id="example">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Cif</th>
+                            <th>Localidad</th>
+                            <th>Provincia</th>
+                            <th>Tipo de tarifa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

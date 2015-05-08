@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+form {
+	margin: 30px;
+	border-color: light-grey;
+	border-width: 1px;
+	width: 500px;
+}
+
+label {
+	display: block;
+	width: 150px;
+	text-align: right;
+	float: left;
+	clear: left;
+	margin-right: 10px;
+}
+
+input {
+	display: block;
+	width: 250px;
+	text-align: left;
+	clear: right;
+}
+input[type="submit"]
+{
+	width: 50px;
+	float:right;
+	margin-right:55px;
+}
+</style>
+<script type="text/javascript">
+	function ValidaCampos(formulario) {
+		/*definimos las expresinoes regulares*/
+		var val_telefono = /^\d{9}$/; // 9 cifras numéricas.
+		var val_dni = /^\d{8}[a-zA-Z]$/; // 8 cifras numéricas más un carácter alfabético.
+		var val_numerico = /^\d*$/;
+		var val_requerido = /\S+/;
+		var val_texto = /^\D+$/;
+		var val_email = /^(.+\@.+\..+)$/;
+
+		/*recorremos los campos del formulario:*/
+		for (i = 0; i < formulario.elements.length - 1; i++) {
+			elemento = formulario.elements[i];
+			if (elemento.type != "text")
+				continue;
+			var palabras = elemento.className.split(" ");
+			for (k = 0; k < 2; k++) {
+				switch (palabras[k]) {
+				case "requerido":
+					if (elemento.value.length<1){
+						document.formulario1.correo.style.borderColor = "#FF0000";
+						document.formulario1.correo.value = "El campo no contiene texto";
+						return false;
+					}
+					break;
+				case "dni":
+					if (!val_dni.test(elemento.value)){
+						document.formulario1.correo.style.borderColor = "#FF0000";
+						document.formulario1.correo.value = "DNI no valido";
+						return false;
+					}
+					break;
+				case "telefono":
+					if (!val_telefono.test(elemento.value)){
+						document.formulario1.correo.style.borderColor = "#FF0000";
+						document.formulario1.correo.value = "Teléfono no valido";
+						return false;
+					}
+					break;
+				case "numerico":
+					if (!val_numerico.test(elemento.value)){
+						document.formulario1.correo.style.borderColor = "#FF0000";
+						document.formulario1.correo.value = "El campo debe ser númerico";
+						return false;
+					}
+					
+					break;
+				case "email":
+					if (!val_email.test(elemento.value)){
+						document.formulario1.correo.style.borderColor = "#FF0000";
+						document.formulario1.correo.value = "El email no es válido";
+						return false;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	window.onload = function (){
+		document.formulario2.direccion.focus();
+	} 
+</script>
+</head>
+<body>
+	<form name="formulario1" action="#"
+		onSubmit="return ValidaCampos(this)">
+		<fieldset>
+			<legend>Formulario 1:</legend>
+			<label for="nombre">Nombre:</label> <input type="text" id="nombre"
+				name="nombre" class="requerido texto" /> <label for="apellido">Apellido:</label>
+			<input type="text" id="apellido" name="apellido"
+				class="requerido texto" /> 
+				<label>Teléfono: </label> <input type="text" id="telefono" name="telefono" class="telefono" />
+				<label>Correo electrónico: </label> <input
+				type="text" id="correo" name="correo" class="requerido email" /> <label>DNI:
+			</label> <input type="text" id="dni" name="dni" class="requerido dni" /> <input
+				type="submit" value="enviar" />
+		</fieldset>
+	</form>
+
+	<form name="formulario2" action="#"
+		onSubmit="return ValidaCampos(this)">
+		<fieldset>
+			<legend>Formulario 2:</legend>
+			<label>Dirección: </label> <input type="text" id="direccion"
+				name="direccion" /> <label>Código Postal:</label> <input
+				type="text" id="cp" name="cp" /> <label>Localidad: </label> <input
+				type="text" id="localidad" name="localidad" /> <label>Provincia:
+			</label> <input type="text" id="provincia" name="provincia" /> <input
+				type="submit" value="enviar" />
+		</fieldset>
+	</form>
+</body>
+</html>

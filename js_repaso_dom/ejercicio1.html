@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Ejercicio 1 - Repaso DOM</title>
+		<script type="text/javascript">
+			function mostrar(){
+				alert(document.getElementById("id_link").attributes[1].name)
+				alert(document.getElementById("id_link").attributes[1].value)
+			}
+		</script>
+	</head>
+	<body>
+		<a href="#" id="id_link" title="Enlace de prueba" onclick="mostrar();return false;">Pulsa aquí</a>
+	</body>
+</html>

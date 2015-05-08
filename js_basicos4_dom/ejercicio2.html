@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Javascript - Básicos 4 - Expresiones regulares y DOM - Ejercicio 2</title>
+		<script type="text/javascript">
+			function avisar(){
+				alert("Va a desaparecer el texto");
+				var parrafo = document.getElementById("parrafo");
+				parrafo.style.display="none";
+				alert("El texto ha desaparecido");
+			}
+			/* --- Opción 2 ---
+			function avisar(){
+					alert("Se va a eliminar el texto de la página");
+					//document.getElementById("textoweb").innerHTML = "Nuevo texto";
+					parrafos=document.getElementsByTagName("p")
+					parrafos[0].innerHTML="Nuevo texto2";
+					parrafos[1].innerHTML="Nuevo texto2";
+					alert("Texto machacado");
+			}
+			*/
+			/* --- Opción 3 ---
+			function avisar(){
+				alert("Va a desaparecer el texto");
+				var texto = document.getElementById("txt");
+				texto.parentNode.removeChild(texto);
+				alert("Ha desaparecido el texto");
+			}
+			*/
+		</script>
+	</head>
+	<body>
+		<p id="parrafo" onclick="avisar()">Este es el texto de la página. Haz click en el</p>
+	</body>
+</html>

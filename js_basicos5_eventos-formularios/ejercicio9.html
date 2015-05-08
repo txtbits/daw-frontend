@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Ejercicio 5 - Eventos y formularios I</title>
+		<style>
+			fieldset{ width:400px; text-align:right; margin-right:20px; }
+			label{ display:block; }
+			input{ margin-left:10px;}
+			
+		</style> 
+		<script type="text/javascript">
+		function ValidaCampos(formulario){
+			
+			var val_texto = /^\D*$/;
+			var val_tel = /^\d{9}$/; // 9 cifras numéricas.
+			var val_dni = /^\d{8}[a-zA-Z]$/; // 8 cifras numéricas más un carácter alfabético.
+			var val_correo = /^(.+\@.+\..+)$/;
+			
+			
+			/* Recorrer los campos del formulario */
+			for (i = 0; i < f1.elements.length-1; i++){
+				/*en función del tipo de dato que tenemos, haremos una u otra validación */
+				elemento = f1.elements[i];
+				if(elemento.type != "text")
+					continue;
+				var clases = elemento.className.split(" ");
+				for (k = 0; k < clases.length; k++){
+					switch(clases[k]){
+					case "requerido":
+						if (elemento.value.length < 1)
+							alert("Campo requerido");
+						break;
+					case "texto":
+						if (!val_texto.test(element.value))
+							alert("Caracteres númericos no validos");
+						break;
+					case "telefono":
+						if (!val_tel.test(elemento.value))
+							alert("Teléfono no valido");
+						break;
+					case "dni":
+						if (!val_dni.test(elemento.value))
+							alert("Dni no valido");
+						break;
+					case "correo":
+						if (!val_correo.test(elemento.value))
+							alert("Correo no valido");
+						break;
+					}
+				}
+			}
+		}
+		
+
+		window.onload=function(){
+			document.f1.direccion.focus();
+		}
+		</script>
+	</head>
+	<body>
+		<form name="f1" onSubmit="return ValidaCampos(this)">
+		<fieldset>
+		<legend>Formulario 1</legend>
+			<label>Nombre:<input type="text" name="nombre" class="requerido texto" /></label>
+			<label>Apellido:<input type="text" name="apellido" class="requerido texto" /></label>
+			<label>Teléfono:<input type="text" name="telefono" class="telefono" /></label>
+			<label>Correo electrónico:<input type="text" name="correo" class="requerido email" /></label>
+			<label>DNI:<input type="text" name="dni" class="requerido dni"/></label>
+			<input type="submit" />
+		</fieldset>
+		</form>
+		<form name="f2" onSubmit="return ValidaCampos(this)">
+		<fieldset>
+		<legend>Formulario 2</legend>
+			<label>Dirección:<input type="text" name="direccion" /></label>
+			<label>Código postal:<input type="text" name="cpostal" /></label>
+			<label>Localidad:<input type="text" name="localidad" /></label>
+			<label>Provincia:<input type="text" name="provincia" /></label>
+			<input type="submit" />
+		</fieldset>
+		</form>	
+	</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>js_repaso_dom5</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function mostrar(num) {
+			if (num==1) {
+				
+				document.getElementById("mensaje").innerHTML="&nbsp;Has pasado el ratón por el enlace";
+				document.getElementById("mensaje").style.display="inline";
+			}
+			else if (num==2){
+				document.getElementById("mensaje").innerHTML="&nbsp;Has pulsado el enlace";
+				document.getElementById("mensaje").style.color="#0101ff";
+				document.getElementById("mensaje").style.fontWeight="bold";
+			}
+		}
+	</script>
+	<a href="#" id="id_link" title="Enlace de prueba" onmouseover="mostrar(1); return false;" onclick="mostrar(2); return false;">Pulsa el enlace</a>
+	<span id="mensaje" style="display:none;"></span>
+</body>
+</html>

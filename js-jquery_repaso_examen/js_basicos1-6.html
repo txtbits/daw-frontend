@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js_basicos1-6</title>
+		<script type="text/javascript">
+			function evaluar(){
+				
+				var num1 = parseInt(prompt("Introduce el numero 1:"));
+				var num2 = parseInt(prompt("Introduce el numero 2:"));
+				var num3 = parseInt(prompt("Introduce el numero 3:"));
+				
+				if (num1 > num2 && num1 > num3) 
+				{
+					document.write("El numero " + num1 + " es mayor que " + num2 + " y que " + num3);	
+				} else if (num2 > num1 && num2 > num3)
+				{
+					document.write("El numero " + num2 + " es mayor que " + num1 + " y que " + num3);
+				} else
+				{
+					document.write("El numero " + num3 + " es mayor que " + num1 + " y que " + num2);
+				}
+			   
+			}
+		
+		</script>
+	</head>
+	<body onload="evaluar()">
+
+	</body>
+</html>

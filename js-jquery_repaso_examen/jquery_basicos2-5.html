@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jquery_basicos2-5</title>
+<style>
+img {
+	position:absolute;
+	top:100px;
+	left:30px;
+}
+</style>
+<script src="jquery-1.8.2.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$("button.comenzar").click(function(event){
+			$("img")
+			.animate({width:'488px'}, 1000)
+			.animate({left:'+=500px'}, 1000)
+			.animate({width:'244px'}, 1000);
+		});
+		
+		$("button.parar").click(function(event){
+			$("img").stop();
+		});
+		
+		$("button.parartodo").click(function(event){
+			$("img").stop(true,true);
+		});
+	});
+</script>
+</head>
+<body>
+	<img src="imagenes/logo.png"
+		alt="Logotipo Centro Integrado de Formación Profesional Los Enlaces" />
+	<button class="comenzar">Comenzar animación</button>
+	<button class="parar">Parar animación</button>
+	<button class="parartodo">Parar todas las animaciones</button>
+</body>
+</html>

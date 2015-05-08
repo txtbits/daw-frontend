@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js_repaso_dom1</title>
+		<script>
+			function pulsar(){
+				alert(document.getElementById("id_link").attributes[1].name)
+				alert(document.getElementById("id_link").attributes[1].value)
+			}
+		</script>
+	</head>
+	<body>
+		<a href="#" id="id_link" title="Enlace de prueba" onclick="pulsar()">Pulsa aquí</a>
+	</body>
+</html>

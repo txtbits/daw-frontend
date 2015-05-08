@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<style type="text/css">
+		body{background-color:#F5F5F5;}
+		fieldset{margin:0 auto; width:650px;}
+		label{display:block;}
+		span.requerido{font-weight: bold; color: red;}
+		label.error{float:right;}
+		
+		</style>
+		<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+		<script type="text/javascript" src="jquery.validate.js"></script>
+		<script type="text/javascript" src="localization/messages_es.js"> </script>
+		<script>
+			$(document).ready(function() {
+				$("#formulario").validate({
+					rules : {
+						nombre : {
+							required : true,
+							minlength : 2,
+							remote: 'users4.php'
+						},
+						email : {
+							required : true,
+							email: true,
+							remote: 'emails4.php'
+						},
+						url : "url",
+						comentarios : "required"
+					},
+					messages : {
+						nombre : {
+							remote : jQuery.format("{0} Este nombre ya esta en uso")
+						},
+						email : {
+							remote : jQuery.format("{0} Este email ya esta en uso")	
+						}
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<form id="formulario" method="post" action="">
+			<fieldset>
+				<legend>Validating a complete form</legend>
+				
+				<label for="nombre">Nombre <span class="requerido">*</span></label>
+				<input id="nombre" name="nombre" type="text" />
+			
+				<label for="email">Email <span class="requerido">*</span></label>
+				<input id="email" name="email" type="text" />
+			
+				<label for="url">URL</label>
+				<input id="url" name="url" type="text" />
+			
+				<label for="comentarios">Comentarios <span class="requerido">*</span></label>
+				<textarea rows="4" cols="30" name="comentarios"></textarea>
+				
+				<br />
+				<input class="submit" type="submit" value="Submit" />
+			</fieldset>
+		</form>
+	</body>
+</html>

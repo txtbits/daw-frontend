@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ejercicio 3 - jQuery html/css</title>
+
+<script src="jquery-1.8.2.min.js"></script>
+<script>
+	$(document).ready(function() {
+		
+		$("#micapa").css({
+			"background-color" : "#ff8800",
+			"color" : "green",
+			"position" : "absolute",
+			"width" : "100px",
+			"top" : "100px",
+			"left" : "200px"
+		});
+		
+		$("#fondogris").click(function(e) {
+			e.preventDefault();
+			$("#micapa").css({"background-color" : "#CCC"});
+		});
+		
+		$("#fondonaranja").click(function(e) {
+			e.preventDefault();
+			$("#micapa").css({"background-color" : "#FF8800"});
+		});
+		
+		$("#ocultarmostrar").click(function(e) {
+			e.preventDefault();
+			$("#micapa").toggle();
+		});
+		
+		$("#micapa").mouseover(function() {
+			$("#micapa").animate({left:'+=20px'}, 1000);
+		});
+		
+	
+		
+	});
+</script>
+</head>
+<body>
+	<div id="micapa">hola!</div>
+	<a href="#" id="fondogris">Poner fondo gris</a>
+	<br>
+	<a href="#" id="fondonaranja">Poner fondo naranja</a>
+	<br>
+	<a href="#" id="ocultarmostrar">Ocultar o mostrar</a>
+</body>
+</html>

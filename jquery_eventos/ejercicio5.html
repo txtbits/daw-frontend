@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery Eventos - Ejercicio 4</title>
+<style>
+	table, th, td{border-collapse:collapse; border:1px solid #000;}
+	th{background-color:#E305A3;}
+	tr{background-color:#EDE;}
+	tr.resaltado{background-color:#EEE;}
+	tr:hover{background-color:#FF0;}
+	#tooltip{position:absolute; display:none; background-color:#000; color:#FFF; width:300px;}
+</style>
+<script src="jquery-1.8.2.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$("tr").on("mouseenter", "td", function(e){
+			var mousex = e.pageX; 
+			var mousey = e.pageY;
+			$("#tooltip").css({"display": "block", "top": mousey, "left": mousex});
+			// SIN TERMINAR 
+		});
+	});
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>Jugador</th>
+			<th>Equipo</th>		
+		</tr>
+		<tr>
+			<td title="Messi">Lionel Messi</td>
+			<td>FC Barcelona</td>		
+		</tr>
+		<tr class="resaltado">
+			<td title="CRonaldo">Cristiano Ronaldo</td>
+			<td>Real Madrid</td>		
+		</tr>
+		<tr>
+			<td>Radamel Falcao</td>
+			<td>Atlético de Madrid</td>		
+		</tr>
+		<tr class="resaltado">
+			<td>Aritz Aduriz</td>
+			<td>Athletic Club</td>		
+		</tr>
+		<tr>
+			<td>Gonzalo Higuain</td>
+			<td>Real Madrid</td>		
+		</tr>
+	</table>
+	<div id="tooltip">dsd</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title> <
+<script type="text/javascript">
+	function coordenadas(elEvento) {
+		/*la siguiente línea por el explorer:*/
+		var evento = elEvento || window.event;
+		var x = evento.clientX;
+		var y = evento.clientY;
+		var coordenadaX = evento.screenX;
+		var coordenadaY = evento.screenY;
+		var coordenadaXabsoluta = evento.pageX;
+		var coordenadaYabsoluta = evento.pageY;
+		document.getElementById("x").value = x;
+		document.getElementById("y").value = y;
+		document.getElementById("xx").value = coordenadaX;
+		document.getElementById("yy").value = coordenadaY;
+		document.getElementById("xxx").value = coordenadaXabsoluta;
+		document.getElementById("yyy").value = coordenadaYabsoluta;
+	}
+	document.onmousemove = coordenadas;
+</script>
+</head>
+<body>
+	<form action="#">
+		<label for="x">Coordenada X navegador: </label> <input type="text"
+			id="x" /> <label for="y">Coordenada Y navegador: </label> <input
+			type="text" id="y" /> <br></br> <label for="xx">Coordenada X
+			monitor: </label> <input type="text" id="xx" /> <label for="yy">Coordenada
+			Y monitor: </label> <input type="text" id="yy" /> <br></br> <label for="xxx">Coordenada
+			X absoluta: </label> <input type="text" id="xxx" /> <label for="yyy">Coordenada
+			Y absoluta: </label> <input type="text" id="yyy" />
+	</form>
+</body>
+</html>

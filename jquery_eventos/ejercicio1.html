@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery Eventos - Ejercicio 1</title>
+<script src="jquery-1.8.2.min.js"></script>
+<script>
+	$(document).ready(function() {
+		/*
+		-- Opción 1 --
+		--------------
+		
+		$(this).mouseover(function(){
+			$("p").css({"color":"#F00"})
+		})
+		.mouseout(function(){
+			$("p").css({"color":"#000"})
+		});
+		
+		-- Opción 2 --
+		--------------
+		
+		$("p").on("mouseenter mouseleave", function(e) {
+			//con ($(this).css("color")=="black") no me ha funcionado
+			if ($(this).css("color") == "rgb(0, 0, 0)")
+				$(this).css("color", "rgb(255, 0, 0)");
+			else
+				$(this).css("color", "black");
+		})
+		
+		-- Opción 3 --
+		--------------
+		
+		*/
+		
+		// Nota: Esta hecho sin el método ON (es como se pide en el ejercicio).
+		// Con .on("hover", ... ) no funciona ya que .on() solo permite una función y hover son dos
+		$("p").hover(function(){
+			$(this).css({"color":"#F00"})
+		}, function(){
+			$(this).css({"color":"#000"})
+		});
+		
+		
+		function clicAlerta() {
+			alert("Has hecho clic");
+		}
+		$("p.miclase").on("click", clicAlerta);
+	});
+</script>
+</head>
+<body>
+	<p class="miclase">Primer párrafo</p>
+	<p>Otro párrafo</p>
+</body>
+</html>

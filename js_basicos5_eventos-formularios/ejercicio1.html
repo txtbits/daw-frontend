@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Ejercicio 1 - Eventos y formularios I</title>
+
+<script type="text/javascript">
+function muestraOculta(val) {
+	switch (val){
+		case 1:
+			contenido1 = document.getElementById("contenidos_1");
+			enlace1 = document.getElementById("enlace_1");
+			if (enlace1.innerHTML == "Mostrar contenidos"){
+				contenido1.style.display = "block";
+				enlace1.innerHTML = "Ocultar contenidos";
+			} else {
+				contenido1.style.display = "none";
+				enlace1.innerHTML = "Mostrar contenidos";
+			}
+			break;
+		case 2:
+			contenido2 = document.getElementById("contenidos_2");
+			enlace2 = document.getElementById("enlace_2");
+			if (enlace2.innerHTML == "Mostrar contenidos"){
+				contenido2.style.display = "block";
+				enlace2.innerHTML = "Ocultar contenidos";
+			} else {
+				contenido2.style.display = "none";
+				enlace2.innerHTML = "Mostrar contenidos";
+			}
+			break;
+		case 3:
+			contenido3 = document.getElementById("contenidos_3");
+			enlace3 = document.getElementById("enlace_3");
+			if (enlace3.innerHTML == "Mostrar contenidos"){
+				contenido3.style.display = "block";
+				enlace3.innerHTML = "Ocultar contenidos";
+			} else {
+				contenido3.style.display = "none";
+				enlace3.innerHTML = "Mostrar contenidos";
+			}
+			break;
+	}
+	
+}
+</script>
+</head>
+
+<body>
+
+<p id="contenidos_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+<a id="enlace_1" href="#" onclick="muestraOculta(1)">Ocultar contenidos</a>
+
+<br/>
+
+<p id="contenidos_2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+<a id="enlace_2" href="#" onclick="muestraOculta(2)">Ocultar contenidos</a>
+
+<br/>
+
+<p id="contenidos_3">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+<a id="enlace_3" href="#" onclick="muestraOculta(3)">Ocultar contenidos</a>
+
+</body>
+
+</html>
+

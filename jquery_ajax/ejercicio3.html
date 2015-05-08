@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>jQuery Ajax - Ejercicio 3</title>
+		<script src="jquery-1.8.2.min.js" type="text/javascript"></script>   
+		<script>
+			$(document).ready(function(){
+				$("input:submit").click(function(evento){
+					$.ajaxSetup ({
+						cache: false
+					});
+					
+					evento.preventDefault();
+					var nombre = $("#nombre").val();
+					var edad = $("#edad").val();
+					$("#destino").load("recibe-parametros-get.php", "nombre="+nombre+"&edad="+edad);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<form>	
+			<label>Ingrese el nombre: <input type="text" id="nombre"/></label>
+			<br />
+			<label>Ingrese la edad: <input type="text" id="edad"/></label>
+			<br />
+			<p><input type="submit" value="Enviar" /></p>	
+		</form>
+		<div id="destino"></div>
+	</body>
+</html>

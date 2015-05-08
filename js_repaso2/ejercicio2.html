@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Ejercicio 2</title>
+		<style>
+			a[href="http://www.soplaelcierzo.com"] {
+				text-decoration: none;
+				border-bottom-style: dotted;
+				color: red;
+			}
+			
+			.resaltar {
+				background-color: red;
+			}
+			
+			.tachar {
+				background-color: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+			window.onload = function() {
+				elementos = document.getElementsByClassName("resaltar");
+				longitud=elementos.length;
+				for (i = 0; i < longitud; i++) {
+					elementos[0].className="tachar";
+				}
+			}
+		</script>
+		<h4>Obtenemos todos las palabras de la web con una determinada clase y la cambiamos por otra de modo que esas palabras queden resaltadas en el documento.	</h4>
+		<p>A continuación la lista de enlaces:</p>
+		<p>Enlaces diferentes:</p>
+		<ul>
+			<li><a href="http://www.soplaelcierzo.com">La Web de <span
+					class="resaltar">Windsurf</span> y Kitesurf del norte de España
+			</a></li>
+			<li><a href="http://www.soplaelcierzo.com">La Web de <span
+					class="resaltar">Windsurf</span> y Kitesurf del norte de España
+			</a></li>
+			<li><a href="http://www.soplaelcierzo.com">La Web de <span
+					class="resaltar">Windsurf</span> y Kitesurf del norte de España
+			</a></li>
+			<li><a href="http://www.marca.com">Periódico deportivo</a></li>
+			<li><a href="http://www.marca.com">Periódico deportivo</a></li>
+		</ul>
+	</body>
+</html>

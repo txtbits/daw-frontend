@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ejercicio 6 - jQuery básicos 2</title>
+<script src="jquery-1.8.2.min.js"></script>
+<script>
+	$(document).ready(function() {
+	   $("#btn")
+	   .mouseover(function(){alert("encima")})
+	   .mouseout(function(){alert("fuera")})
+	   .click(function(){alert("click")});
+	});
+</script>
+<body>
+	<button id="btn">Botón</button>
+</body>
+</html>

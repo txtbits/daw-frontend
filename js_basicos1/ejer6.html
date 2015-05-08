@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Javascript - Básicos 1 - Ejercicio 6</title>
+		<script type="text/javascript">
+			function disp_prompt()
+			{	
+				do {
+					var num1 = parseInt(prompt("Introduce el primer numero"));
+					
+				} while (isNaN(num1))
+				do {
+					var num2 = parseInt(prompt("Introduce el segundo numero"));
+				} while (isNaN(num2))
+				do {
+					var num3 = parseInt(prompt("Introduce el tercere numero"));
+				} while (isNaN(num3))
+				
+				if (num1 > num2 && num1 > num3) 
+				{
+					document.write("El numero " + num1 + " es mayor que " + num2 + " y que " + num3);	
+				} else if (num2 > num1 && num2 > num3)
+				{
+					document.write("El numero " + num2 + " es mayor que " + num1 + " y que " + num3);
+				} else
+				{
+					document.write("El numero " + num3 + " es mayor que " + num1 + " y que " + num2);
+				}
+			}
+		</script>
+	</head>
+	 <body>
+	 	<input type="button" onclick="disp_prompt()" value="Mostrar un prompt box" />
+	</body>
+</html>

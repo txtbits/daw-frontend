@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js_basicos1-3</title>
+		<script type="text/javascript">
+			function calcular(){
+				
+			   	do {
+			   		var num1 = parseInt(prompt("Introduce el número 1:"));
+			   	} while (isNaN(num1))
+		   		do {
+			   		var num2 = parseInt(prompt("Introduce el número 2:"));
+			   	} while (isNaN(num2))
+				
+		   		var suma = num1 + num2;
+			   	var multi = num1 * num2;
+			   	document.write(suma + "<br />");
+			   	document.write(multi);
+			}
+		
+		</script>
+	</head>
+	<body>
+		<input type="button" onclick="calcular()" value="Calcular" />
+	</body>
+</html>
